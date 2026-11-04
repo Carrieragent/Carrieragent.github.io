@@ -44,6 +44,7 @@ nav button{flex:1;border:0;background:none;font-family:inherit;font-size:12px;co
 .tab{display:none}.tab.on{display:block}
 .stat{display:grid;grid-template-columns:1fr 1fr;gap:8px}.st{background:#fff5f8;border-radius:14px;padding:10px;text-align:center}.st b{display:block;font-size:24px;color:var(--rose)}
 .hist{display:flex;justify-content:space-between;font-size:15px;padding:7px 0;border-bottom:1px dashed #fde0ea}
+.rsec{font-weight:700;color:#c2185b;margin:12px 0 4px;font-size:17px}.rsub{font-weight:600;margin:8px 0 2px;color:var(--rose)}.rtip{background:#fff0f5;border:1.5px dashed var(--line);border-radius:14px;padding:9px 11px;margin:8px 0;font-size:15px}
 </style></head><body>
 <header><span class="spark" style="left:14px;top:22px">✦</span><span class="spark" style="right:16px;top:26px">✦</span><h1>Glow Up with Bella ♡</h1></header>
 <div class="hirow"><span class="hi">Hi Ishu! 💕</span><span class="streak">🔥 <b id="streakN">0</b> day streak</span></div>
@@ -91,7 +92,13 @@ nav button{flex:1;border:0;background:none;font-family:inherit;font-size:12px;co
  <div class="small" style="margin-top:6px;text-align:center">Bella replies here 💌</div></div>
 </section>
 
-<nav><button class="on" data-t="home"><span>🏠</span>Home</button><button data-t="workouts"><span>🏋️‍♀️</span>Workouts</button><button data-t="food"><span>🍓</span>Food</button><button data-t="progress"><span>📊</span>Progress</button><button data-t="bella"><span>💕</span>Bella</button></nav>
+<section class="tab" id="t-skin">
+ <div class="card"><h2>🧴 My Skin Routine<span class="r" id="rcount"></span></h2><div class="bar"><i id="rbar"></i></div><div class="rtip" id="tretTip"></div><div id="routine"></div><div class="msg" id="rstatus"></div></div>
+ <div class="card"><h2>💪 After the gym</h2><div class="small" style="font-size:15px">Change out of sweaty clothes right away 💗</div></div>
+ <div class="card"><h2>🚫 Avoid</h2><div style="font-size:15px">• The Ordinary SA on face<br>• Scrubbing or picking<br>• Tretinoin, Panoxyl, or AmLactin on sensitive areas</div></div>
+</section>
+
+<nav><button class="on" data-t="home"><span>🏠</span>Home</button><button data-t="workouts"><span>🏋️‍♀️</span>Workouts</button><button data-t="food"><span>🍓</span>Food</button><button data-t="progress"><span>📊</span>Progress</button><button data-t="bella"><span>💕</span>Bella</button><button data-t="skin"><span>🧴</span>Skin</button></nav>
 <script>
 const API='https://textdb.dev/api/data/ishu-glow-31a9cc5f44944aa6bbe1c322b616dc56',GOAL=100,MIN=80,WGOAL=2.5,OZ=30;
 const PLAN={d1:{t:'Glutes',ex:['Hip thrust','Abductor machine','Kickbacks','Fire hydrants','Glute back extension']},
@@ -137,6 +144,10 @@ const yeti=f=>`<svg width="58" height="88" viewBox="0 0 58 88"><defs><clipPath i
 function addW(d){cur();E.water=Math.max(0,E.water+d);touch();render();if(E.water===WGOAL&&d>0)party()}
 function setP(k,v){cur();const before=n3(E);E.protein[k]=v;touch();render();if(n3(E)===3&&before<3)party()}
 function coreHTML(){return CORE.map(c=>`<label class="prow"><input type="checkbox" ${E.protein[c[0]]?'checked':''} onchange="setP('${c[0]}',this.checked)"> ${c[1]} ${c[2]} <span class="g">${c[3]}g</span></label>`).join('')}
+const ROUTINE=[['🌸 Face',[['☀️ Morning',[['fm1','Rinse with water or gentle cleanser'],['fm2','Azelaic acid 15% gel, thin layer'],['fm3','Moisturizer'],['fm4','Sunscreen SPF 30+']]],['🌙 Night',[['fn1','In shower: Panoxyl wash, leave 1–2 min, rinse'],['fn2','Pat dry with white towel'],['fn3','Wait ~20 min until face is fully dry'],['fn4','Tretinoin, pea-sized (every other night weeks 1–2, then build up)'],['fn5','Moisturizer'],['fn6','Mighty Patch on pimples']]]]],['🌸 Body',[['☀️ Morning',[['bm1','Wear loose, breathable clothes']]],['🌙 Night (shower)',[['bn1','Panoxyl wash on back, butt, thighs, leave 1–2 min, rinse'],['bn2','Pat dry with white towel'],['bn3','Clindamycin swab on back, butt, legs'],['bn4','AmLactin (KP cream) on arms, butt, thighs'],['bn5','~20 min later: Bioderma Pigmentbio on sensitive areas (every other night in week 1)']]]]]];
+function tretTip(){const d=Math.round((new Date(K()+'T12:00')-new Date('2026-11-03T12:00'))/864e5);if(d<0)return '🌙 Tretinoin starts Tue Nov 3 💗';if(d<14)return d%2===0?'🌙 Tonight IS a tretinoin night ✨ pea-sized, on fully dry skin':'🌙 No tretinoin tonight, just moisturizer 💗 (next one tomorrow)';return '🌙 Tretinoin: building up now — follow your derm\'s plan 💗'}
+function renderRoutine(){cur();E.routine=E.routine||{};let n=0,t=0;$('routine').innerHTML=ROUTINE.map(([sec,parts])=>`<div class="rsec">${sec}</div>`+parts.map(([lbl,steps])=>`<div class="rsub">${lbl}</div>`+steps.map(([id,txt],i)=>{t++;if(E.routine[id])n++;return `<label class="prow"><input type="checkbox" ${E.routine[id]?'checked':''} onchange="setR('${id}',this.checked)"> ${steps.length>1?(i+1)+'. ':''}${txt}</label>`}).join('')).join('')).join('');$('rcount').textContent=n+'/'+t;$('rbar').style.width=(n/t*100)+'%';$('tretTip').textContent=tretTip()}
+function setR(id,v){cur();E.routine=E.routine||{};E.routine[id]=v;touch();renderRoutine();doSave('rstatus')}
 function render(){cur();const k=K();
 $('homeDays').innerHTML=Object.entries(PLAN).map(([id,p])=>`<button class="drow ${E.day===id?'on':''}" onclick="pickDay('${id}',1)"><span class="tag">Day ${id[1]}</span>${p.t}${E.day===id&&E.workout==='done'?'<span class="ck">✔</span>':''}</button>`).join('')+`<button class="drow ${E.day==='rest'?'on':''}" onclick="pickDay('rest')"><span class="tag">Rest</span>Rest day 😴${E.day==='rest'?'<span class="ck">✔</span>':''}</button>`;
 $('core').innerHTML=coreHTML();$('core2').innerHTML=coreHTML();$('p3').textContent=n3(E)+'/3';
@@ -149,7 +160,7 @@ $('mood').innerHTML=MOOD.map(m=>`<button class="chip ${E.mood===m?'on':''}" styl
 $('food').value=E.food||'';$('bellaP').textContent=E.bella_protein_g!=null?`💕 Bella estimated +${E.bella_protein_g}g from your free-typed food${E.bella_note?' ('+E.bella_note+')':''}`:'';
 $('quick').innerHTML=QUICK.map((q,i)=>`<button class="chip" onclick="quick(${i})">${q[0]} <b style="color:var(--rose)">${q[1]}g</b></button>`).join('');
 $('flist').innerHTML=E.foods.length?E.foods.map((f,i)=>`<div class="fl">${esc(f.name)}<span class="g">${f.g===''||f.g==null?'Bella ?':f.g+'g'}</span><button class="x" onclick="E.foods.splice(${i},1);touch();render()">✕</button></div>`).join(''):'<div class="small">Nothing yet — tap quick add 💗</div>';
-renderWork();week();streak();progress();bellaLine()}
+renderWork();renderRoutine();week();streak();progress();bellaLine()}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function quick(i){cur();E.foods.push({name:QUICK[i][0],g:QUICK[i][1]});touch();render();toast('fstatus',`+${QUICK[i][1]}g added 💪`)}
 function addFood(){const n=$('fname').value.trim();if(!n)return;cur();const g=$('fg').value;E.foods.push({name:n,g:g===''?null:+g});$('fname').value='';$('fg').value='';touch();render()}
