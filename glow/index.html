@@ -101,10 +101,10 @@ nav button{flex:1;border:0;background:none;font-family:inherit;font-size:12px;co
 <nav><button class="on" data-t="home"><span>🏠</span>Home</button><button data-t="workouts"><span>🏋️‍♀️</span>Workouts</button><button data-t="food"><span>🍓</span>Food</button><button data-t="progress"><span>📊</span>Progress</button><button data-t="bella"><span>💕</span>Bella</button><button data-t="skin"><span>🧴</span>Skin</button></nav>
 <script>
 const API='https://textdb.dev/api/data/ishu-glow-31a9cc5f44944aa6bbe1c322b616dc56',GOAL=100,MIN=80,WGOAL=2.5,OZ=30;
-const PLAN={d1:{t:'Glutes',ex:['Hip thrust','Abductor machine','Kickbacks','Fire hydrants','Glute back extension']},
+const PLAN={d1:{t:'Glutes',ex:['Hip thrust','Abductor machine','Kickbacks','Fire hydrants','Glute back extension','Banded lateral walks (warm-up)','Wide-stance leg press','Sumo squat (dumbbell or kettlebell)','Adductor (inner thigh) machine']},
 d2:{t:'Core + Hips',ex:['Dead bug','Plank','Crunch','Abductor machine','Side-lying leg raises']},
 d3:{t:'Back + Arms',ex:['Lat pulldown 3x12','Seated row','Rear delt fly','Tricep pushdown','Light curls','Abductor machine']},
-d4:{t:'Heavier Glutes',ex:['Hip thrust (heavier)','RDL','Reverse lunges','Step-ups','Abductor machine']}};
+d4:{t:'Heavier Glutes',ex:['Hip thrust (heavier)','RDL','Reverse lunges','Step-ups','Abductor machine','Banded lateral walks (warm-up)','Wide-stance leg press','Sumo squat (dumbbell or kettlebell)','Adductor (inner thigh) machine']}};
 const TIPS={'Hip thrust':'Upper back on bench, bar/dumbbell on hips. Chin tucked, push through heels, squeeze butt hard at top. Don\'t arch your lower back.',
 'Hip thrust (heavier)':'Same as Day 1, just a bit heavier 🔥 Chin tucked, heels push, big squeeze at top for 1 sec.',
 'Abductor machine':'Sit tall or lean slightly forward. Push knees OUT slowly, pause, come back slowly. Feel the side of your butt.',
@@ -122,7 +122,11 @@ const TIPS={'Hip thrust':'Upper back on bench, bar/dumbbell on hips. Chin tucked
 'Light curls':'Elbows at your sides, curl up slow, lower slow. No swinging!',
 'RDL':'Dumbbells in hands, knees soft. Push butt BACK (close a car door with it), dumbbells slide down legs to mid-shin. Flat back, chest proud. Squeeze butt to stand. 3×10.',
 'Reverse lunges':'Step one foot BACK, lower back knee toward floor. Lean chest slightly forward. Push through FRONT heel to stand. Hold something if needed.',
-'Step-ups':'Low box/bench. WHOLE foot on box, lean slightly forward, push through that top heel to stand. Don\'t push off bottom foot. Step down slow.'};
+'Step-ups':'Low box/bench. WHOLE foot on box, lean slightly forward, push through that top heel to stand. Don\'t push off bottom foot. Step down slow.',
+'Banded lateral walks (warm-up)':'Warm-up. Band above your knees, soft bend in the knees, step sideways. 2 rounds × 15 steps each way.',
+'Wide-stance leg press':'Feet high and wide, toes slightly out. 3 × 10–12. Push through your heels, don\'t lock your knees at the top.',
+'Sumo squat (dumbbell or kettlebell)':'Hold a dumbbell or kettlebell, wide stance, toes out. 3 × 10–12. Sit back, knees track over toes, squeeze glutes to stand.',
+'Adductor (inner thigh) machine':'Pads on the inside of your knees. Squeeze in slowly, pause, return slow. 3 × 12–15.'};
 const CORE=[['shake','🥤','Protein shake',25],['bar','🍪','Oreo protein bar',20],['smoothie','🍓','Protein smoothie (scoop + Fairlife)',35]];
 const QUICK=[['🥚 Egg',6],['🧀 Paneer 100g',18],['🍗 Chicken (palm)',25],['🍲 Dal bowl',12],['🫘 Rajma/chole bowl',12],['🫓 Roti',3],['🥛 Fairlife milk cup',13],['🥛 Regular milk cup',8],['🍔 Chicken burger',25],['🧀 Cheese stick',7],['🥔 Protein chips',19],['☕ Starbucks protein drink',20]];
 const SKIN=[['5','😍','Glowing'],['4','🥰','Good'],['3','🙂','Okay'],['2','😐','Meh'],['1','🥺','Not great']];
