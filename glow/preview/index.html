@@ -87,6 +87,7 @@ nav button span{font-size:27px;filter:grayscale(.6);opacity:.6}nav button.on{bac
 /* trigger flags */
 .bad{color:#d93636;font-weight:600;cursor:pointer;white-space:nowrap}.rdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e53935;margin:0 6px 1px 0;vertical-align:middle}
 .bad .why{display:none;font-style:normal;font-size:11px;font-weight:700;color:#c62828;background:#ffebee;border-radius:999px;padding:1px 8px;margin-left:6px}.bad.show .why{display:inline-block}
+.treat{cursor:pointer;white-space:nowrap}.treat .th{font-style:normal;color:#f48fb1;font-size:13px}.treat .why{display:none;font-style:normal;font-size:11px;font-weight:700;color:var(--rose);background:var(--soft);border-radius:999px;padding:1px 8px;margin-left:6px}.treat.show .why{display:inline-block}
 .freeP{margin-top:8px;font-size:15px;line-height:1.7}.freeP .sep{color:var(--mute);margin:0 6px}
 .badn{color:#d93636;font-size:13px;margin-left:8px;font-weight:700}
 /* ---- v4 decoration layer ---- */
@@ -304,18 +305,26 @@ function hero(){const d=E.day;let h;
  else{const id=PLAN[d]?d:nextDay(),p=PLAN[id],dn=p.ex.filter(x=>E.ex[id+'|'+x]?.done).length;
   h=`<button class="rest" onclick="pickDay('rest')" aria-label="rest day">😴</button><div class="emo">${EMO[id]}</div><div class="k pill">DAY ${id[1]}${dn?' · '+dn+'/'+p.ex.length:''}</div><div class="t">${p.t}</div><button class="btn w" onclick="lix=null;pickDay('${id}',1)">${dn?'CONTINUE':'START'}</button>`}
  $('hero').innerHTML=DECO+h;$('hero').className='hero '+({d1:'g-pink',d2:'g-mint',d3:'g-lilac',d4:'g-peach'}[PLAN[d]?d:d==='rest'?'':nextDay()]||'g-lilac')}
-// ---- skin/PCOS trigger flags (display only; nothing stored) ----
+// ---- food flags: frequency-aware, display only (nothing stored) ----
 const SAFE=/\b(protein|quest|built|misfits|owyn|orgain|fairlife|silk|premier|isopure|clear whey)\b/i;
-const FLAGS=[
- [/\bpeanut\s*butter\b|\bpb\s*(?:&|and)?\s*j\b/i,'peanut butter'],
- [/\b(milk\s*shakes?|milkshakes?|ice\s*cream|gelato|froyo|frozen yogurt|kulfi|whey concentrate|frappuccinos?|frappes?)\b/i,'sugary dairy'],
- [/\b(sodas?|cokes?|coca[- ]?cola|pepsi|sprite|fanta|mountain dew|dr\.? pepper|energy drinks?|red bull|monster|sweet tea|boba|bubble tea|slushies?|lemonade|candy|candies|gumm(?:y|ies)|skittles|starburst|chocolate bars?|kit\s*kat|snickers|m&ms|cakes?|cupcakes?|pastr(?:y|ies)|donuts?|doughnuts?|brownies?|cookies?|oreos?|muffins?|pies?|desserts?|sweets|mithai|gulab jamun|jalebi|ladd?oo?s?|barfi|halwa|kheer|rasgulla|rasmalai|syrup|nutella|cinnamon rolls?|churros?)\b/i,'high sugar'],
- [/\b(fries|french fries|fried|deep[- ]fried|pakoras?|pakodas?|samosas?|bhature|bhatura|puris?|pooris?|vadas?|kachoris?|nuggets?|onion rings|hot\s*dogs?|pizza|burgers?|kfc|mcdonald'?s|mcd|popeyes|taco bell|wendy'?s|burger king|chick-?fil-?a|tater tots|hash browns?)\b/i,'fried / fast food'],
- [/\b(chips|doritos|cheetos|takis|lays|maggi|instant noodles|ramen|cup noodles|naan|white bread|bagels?|croissants?|biscuits?|crackers|nachos|pretzels)\b/i,'white-flour junk'],
-];
-function flagOf(t){t=String(t||'');for(const[re,why]of FLAGS){if(re.test(t)){if(why!=='peanut butter'&&SAFE.test(t))return null;return why}}return null}
-function fitem(name){const w=flagOf(name);return w?`<span class="bad" onclick="event.stopPropagation();this.classList.toggle('show')"><i class="rdot"></i>${esc(name)}<em class="why">${w}</em></span>`:esc(name)}
+const CATS=[
+ ['pb',/\bpeanut\s*butter\b|\bpb\s*(?:&|and)?\s*j\b/i],
+ ['drink',/\b(sodas?|cokes?|coca[- ]?cola|pepsi|sprite|fanta|mountain dew|dr\.? pepper|energy drinks?|red bull|monster|sweet tea|boba|bubble tea|slushies?|lemonade|milk\s*shakes?|milkshakes?|frappuccinos?|frappes?)\b/i],
+ ['dairy',/\bwhey concentrate\b/i],
+ ['sweet',/\b(ice\s*cream|gelato|froyo|frozen yogurt|kulfi|candy|candies|gumm(?:y|ies)|skittles|starburst|chocolate bars?|kit\s*kat|snickers|m&ms|cakes?|cupcakes?|pastr(?:y|ies)|donuts?|doughnuts?|brownies?|cookies?|oreos?|muffins?|pies?|desserts?|sweets|mithai|gulab jamun|jalebi|ladd?oo?s?|barfi|halwa|kheer|rasgulla|rasmalai|nutella|cinnamon rolls?|churros?)\b/i],
+ ['fast',/\b(fries|french fries|fried|deep[- ]fried|pakoras?|pakodas?|samosas?|bhature|bhatura|puris?|pooris?|vadas?|kachoris?|nuggets?|onion rings|hot\s*dogs?|pizza|burgers?|kfc|mcdonald'?s|mcd|popeyes|taco bell|wendy'?s|burger king|chick-?fil-?a|tater tots|hash browns?)\b/i],
+ ['flour',/\b(chips|doritos|cheetos|takis|lays|maggi|instant noodles|ramen|cup noodles|naan|white bread|bagels?|croissants?|biscuits?|crackers|nachos|pretzels)\b/i]];
+// rule per category: red when the Nth one this week (wk) or the Nth one today (dy) is reached
+const RULE={fast:{wk:3,dy:2,l:'fast food'},sweet:{wk:3,dy:2,l:'sweet treat'},flour:{wk:3,dy:2,l:'white-flour snack'},drink:{wk:3,l:'sugary drink'},pb:{wk:2,l:'peanut butter'},dairy:{wk:3,l:'whey concentrate'}};
+function catOf(t){t=String(t||'');for(const[c,re]of CATS){if(re.test(t)){if(c!=='pb'&&SAFE.test(t))return null;return c}}return null}
 function freeParts(t){return String(t||'').split(/[,\n;+]|\band\b|\bwith\b|&/i).map(x=>x.trim()).filter(Boolean)}
+function dayItems(k,free){const e=db.entries[k]||{};return[...(e.foods||[]).map(f=>f.name),...freeParts(free!==undefined?free:e.food)]}
+const ord=n=>n+(n%100>10&&n%100<14?'th':['th','st','nd','rd'][n%10]||'th');
+function judge(k,free){const prev={},base=new Date(k+'T12:00');for(let i=1;i<=6;i++){const d=new Date(base);d.setDate(d.getDate()-i);dayItems(iso(d)).forEach(t=>{const c=catOf(t);if(c)prev[c]=(prev[c]||0)+1})}
+ const day={};return dayItems(k,free).map(t=>{const c=catOf(t);if(!c)return null;day[c]=(day[c]||0)+1;const r=RULE[c],wk=(prev[c]||0)+day[c],dy=day[c];
+  const red=wk>=r.wk||(r.dy&&dy>=r.dy);const msg=red?(r.dy&&dy>=r.dy&&wk<r.wk?`${ord(dy)} ${r.l} today`:`${ord(wk)} ${r.l} this week`):(c==='pb'?'once is ok 💕':'treat · enjoy 💕');return{c,red,msg}})}
+function fitem(name,v){if(!v)return esc(name);return v.red?`<span class="bad" onclick="event.stopPropagation();this.classList.toggle('show')"><i class="rdot"></i>${esc(name)}<em class="why">${v.msg}</em></span>`:`<span class="treat" onclick="event.stopPropagation();this.classList.toggle('show')">${esc(name)} <i class="th">♡</i><em class="why">${v.msg}</em></span>`}
+function freeHTML(k,free){const v=judge(k,free),n=(db.entries[k]?.foods||[]).length;return freeParts(free).map((t,j)=>fitem(t,v[n+j])).join('<span class="sep">·</span>')}
 function render(){cur();const k=K(),g=ptotal(E),n=n3(E);
  $('dateLbl').textContent=new Date(k+'T12:00').toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});$('datePill').classList.toggle('on',k!==today());
  hero();
@@ -326,9 +335,9 @@ function render(){cur();const k=K(),g=ptotal(E),n=n3(E);
  $('rG').innerHTML=ring(g/GOAL,'#e85a8a',`<span style="font-size:34px">${g}g</span><span style="font-size:14px;color:var(--mute)">/ ${GOAL}g</span>`);$('ptxt').textContent=g>=GOAL?'💯 Goal smashed!':g>=MIN?`✅ Min hit · ${GOAL-g}g to goal`:`${MIN-g}g to ${MIN}g min`;
  $('core').innerHTML=CORE.map(c=>`<button class="mu ${E.protein[c[0]]?'on':''}" onclick="setP('${c[0]}',${!E.protein[c[0]]})"><span class="ck ${E.protein[c[0]]?'on':''}">✓</span><span class="e">${c[1]}</span>${CSHORT[c[0]]}</button>`).join('');
  $('quick').innerHTML=QUICK.map((q,i)=>`<button class="q" onclick="quick(${i})"><span class="e" style="background:${['#ffe6ef','#efeaff','#fff0e6','#e4f8ef'][i%4]}">${q[0].split(' ')[0]}</span>${QSHORT[i]}<small>+${q[1]}g</small></button>`).join('')+`<button class="q add" onclick="openSheet('log')"><span class="e">✏️</span>Other<small>${E.foods.length+(E.food?1:0)||''}${E.foods.length||E.food?' logged':''}</small></button>`;
- const items=E.foods.map((f,i)=>`<div class="fl">${fitem(f.name)}<span class="g">${f.g===''||f.g==null?'?':f.g+'g'}</span><button class="x" onclick="E.foods.splice(${i},1);touch();render()">✕</button></div>`);
+ const JV=judge(k);const items=E.foods.map((f,i)=>`<div class="fl">${fitem(f.name,JV[i])}<span class="g">${f.g===''||f.g==null?'?':f.g+'g'}</span><button class="x" onclick="E.foods.splice(${i},1);touch();render()">✕</button></div>`);
  $('flist').innerHTML=items.length?items.join(''):`<div class="empty">${berry(64)}Nothing yet</div>`;
- $('food').value=E.food||'';{const fp=freeParts(E.food);$('freeP').innerHTML=fp.length?fp.map(fitem).join('<span class="sep">·</span>'):'';const nb=E.foods.filter(f=>flagOf(f.name)).length+fp.filter(flagOf).length;$('badN').innerHTML=nb?`<i class="rdot"></i>${nb}`:''}$('bellaP').textContent=E.bella_protein_g!=null?`💕 Bella: +${E.bella_protein_g}g${E.bella_note?' ('+E.bella_note+')':''}`:'';
+ $('food').value=E.food||'';$('freeP').innerHTML=freeHTML(k,E.food||'');{const nb=JV.filter(v=>v&&v.red).length;$('badN').innerHTML=nb?`<i class="rdot"></i>${nb}`:''}$('bellaP').textContent=E.bella_protein_g!=null?`💕 Bella: +${E.bella_protein_g}g${E.bella_note?' ('+E.bella_note+')':''}`:'';
  $('skin').innerHTML=SKIN.map(s=>`<button class="face ${E.skin===s[0]?'on':''}" onclick="E.skin='${s[0]}';touch();render()"><span>${s[1]}</span>${s[2]}</button>`).join('');$('skinNotes').value=E.skinNotes||'';
  $('mood').innerHTML=MOOD.map(m=>`<button class="chip ${E.mood===m?'on':''}" onclick="E.mood='${m}';touch();render()">${m}</button>`).join('');$('notes').value=E.notes||'';
  renderWork();renderRoutine();week();streak();progress();bellaLine();topBtns()}
@@ -370,7 +379,7 @@ let curT='home';
 function topBtns(){const B={home:`<button class="ib" onclick="openSheet('feel')" aria-label="skin and mood">${E.mood||'💖'}</button>`,food:`<button class="ib" onclick="openSheet('log')" aria-label="food log">📋</button>`,progress:`<button class="ib" onclick="openSheet('cal')" aria-label="pick date">📅</button>`};$('tbtn').innerHTML=`<span style="display:flex;gap:8px">${B[curT]||''}</span>`}
 function save(id){cur();E.skinNotes=$('skinNotes').value;E.notes=$('notes').value;E.food=$('food').value;touch();doSave(id)}
 ['skinNotes','notes','food'].forEach(i=>$(i).onchange=()=>{cur();E[i]=$(i).value;touch()});
-$('food').addEventListener('input',()=>{$('freeP').innerHTML=freeParts($('food').value).map(fitem).join('<span class="sep">·</span>')});
+$('food').addEventListener('input',()=>{$('freeP').innerHTML=freeHTML(K(),$('food').value)});
 function drawChat(){const c=$('chat');c.innerHTML=db.messages.length?'':`<div class="empty" style="margin-top:40px">${bunny('happy',90)}Say hi!</div>`;db.messages.forEach(m=>{const d=document.createElement('div');d.className='bub '+(m.from==='bella'?'be':'me');d.textContent=m.text;const t=document.createElement('span');t.className='ts';t.textContent=new Date(m.ts).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});d.appendChild(t);if(m.from==='bella'){const w=document.createElement('div');w.className='brow';w.innerHTML=bunny('happy',30);w.appendChild(d);c.appendChild(w)}else c.appendChild(d)});c.scrollTop=c.scrollHeight}
 $('csend').onclick=async()=>{const t=$('cin').value.trim();if(!t)return;db.messages.push({id:Date.now()+'-i',from:'ishu',text:t,ts:new Date().toISOString()});$('cin').value='';drawChat();try{await push()}catch(e){}drawChat()};
 $('cin').onkeydown=e=>{if(e.key==='Enter')$('csend').click()};
