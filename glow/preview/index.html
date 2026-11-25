@@ -4,13 +4,13 @@
 <link rel="icon" href="../icon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="../icon-180.png?v=bow">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Bella">
 <meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#ffffff">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <style>
-:root{--rose:#e85a8a;--deep:#c2185b;--blush:#ffe4ec;--soft:#fff4f8;--line:#f7dbe5;--txt:#5a2338;--mute:#b58a9a;--green:#58cc8a;--gap:16px}
+:root{--rose:#e85a8a;--deep:#c2185b;--blush:#ffe4ec;--soft:#fff4f8;--line:#f7dbe5;--txt:#5a2338;--mute:#b58a9a;--green:#58cc8a;--gap:16px;--body:Nunito;--disp:Sniglet}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{font-family:Fredoka,-apple-system,system-ui,sans-serif;background:#fff;color:var(--txt);min-height:100vh;padding:env(safe-area-inset-top) 0 calc(88px + env(safe-area-inset-bottom));font-size:17px}
+body{font-family:var(--body),-apple-system,system-ui,sans-serif;background:#fff;color:var(--txt);min-height:100vh;padding:env(safe-area-inset-top) 0 calc(88px + env(safe-area-inset-bottom));font-size:17px}
 button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 .top{display:flex;align-items:center;gap:10px;padding:14px 20px 8px;position:sticky;top:0;background:#fff;z-index:5;min-height:62px}
 .top h1{margin:0;font-size:24px;font-weight:700;color:var(--deep);flex:1;white-space:nowrap;display:flex;align-items:center;gap:6px}
@@ -74,6 +74,15 @@ nav button span{font-size:27px;filter:grayscale(.6);opacity:.6}nav button.on{bac
 .sheet h3{margin:4px 0 14px;font-size:22px;color:var(--deep)}.sheet p{font-size:16px;line-height:1.5;margin:0 0 12px}
 .small{font-size:13px;color:var(--mute)}
 .daygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dg{background:var(--soft);border-radius:22px;padding:16px 8px;font-weight:700;font-size:17px;display:flex;flex-direction:column;align-items:center;gap:4px}.dg .e{font-size:34px}.dg.on{background:var(--blush);box-shadow:inset 0 0 0 2px var(--rose);color:var(--deep)}
+.top h1,.hero .t,.lcard .nm,.sheet h3,.ring .in,.st b,.reps,.btn,.pop b{font-family:var(--disp),var(--body),sans-serif}
+.ring .in,.st b{font-variant-numeric:tabular-nums}.ring .in{font-size:15px;letter-spacing:-.02em}.emo .bunny{margin:0 auto}.btn{letter-spacing:.06em}
+.bunny{display:block;flex:none}.bunny.happy .ears{transform-origin:60px 60px;animation:wig 3s ease-in-out infinite}@keyframes wig{0%,85%,100%{transform:none}90%{transform:rotate(-4deg)}95%{transform:rotate(3deg)}}
+.bunny.cheer{animation:hop .6s ease-in-out infinite alternate}@keyframes hop{to{transform:translateY(-6px)}}
+.av{width:50px;height:50px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;position:relative;flex:none}
+.empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 0;color:var(--mute);font-weight:600;font-size:15px}
+.pop{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.4);opacity:0;pointer-events:none;z-index:30;display:flex;flex-direction:column;align-items:center;background:#fff;border-radius:36px;padding:16px 26px 18px;box-shadow:0 10px 40px #e85a8a44}
+.pop b{font-size:28px;color:var(--deep)}.pop.on{animation:popin 1.1s ease forwards}@keyframes popin{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}30%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(1)}}
+.brow{display:flex;gap:8px;align-items:flex-end;align-self:flex-start;max-width:88%}.brow .bub{max-width:none}
 </style></head><body>
 <div class="top">
  <h1 id="ttl">Hi Ishu 🎀</h1><span id="tbtn"></span>
@@ -149,6 +158,7 @@ nav button span{font-size:27px;filter:grayscale(.6);opacity:.6}nav button.on{bac
 
 <div class="sheet" id="sh-cal" onclick="if(event.target===this)closeSheet()"><div class="box"><div class="grab"></div><h3>Pick a date</h3><input type="date" id="date" style="width:100%;font:inherit;font-size:18px;padding:14px;border:2px solid var(--line);border-radius:16px;color:var(--txt)"><button class="btn" onclick="closeSheet()">Done</button></div></div>
 
+<div class="pop" id="pop"></div>
 <nav><button class="on" data-t="home"><span>🏠</span>Today</button><button data-t="workouts"><span>💪</span>Gym</button><button data-t="food"><span>🍓</span>Food</button><button data-t="skin"><span>🧴</span>Skin</button><button data-t="bella"><span>🎀</span>Bella</button></nav>
 <script>
 const API='https://textdb.dev/api/data/ishu-glow-31a9cc5f44944aa6bbe1c322b616dc56',GOAL=100,MIN=80,WGOAL=2.5,OZ=30;
@@ -205,6 +215,23 @@ function streak(){let s=0,d=new Date();if(!good(db.entries[today()]))d.setDate(d
 function weekDays(){const n=new Date(K()+'T12:00'),mon=new Date(n);mon.setDate(n.getDate()-((n.getDay()+6)%7));return[...Array(7)].map((_,i)=>{const x=new Date(mon);x.setDate(mon.getDate()+i);return x})}
 function toast(id,t){$(id).textContent=t;setTimeout(()=>{if($(id).textContent===t)$(id).textContent=''},2500)}
 async function doSave(id){try{await push();render();toast(id,'Saved! Bella can see it 💕 '+CHEERS[Math.floor(Math.random()*CHEERS.length)])}catch(e){toast(id,'Saved on your phone 📱 — will sync next time')}}
+// ---- Bella bunny + critters (hand-drawn inline SVG) ----
+function bunny(mood,size){mood=mood||'happy';size=size||64;const ol='#e9a3bb';
+ const eyes=mood==='sleepy'?`<path d="M44 70q5 4 10 0M66 70q5 4 10 0" stroke="#5a2338" stroke-width="3" fill="none" stroke-linecap="round"/>`
+  :mood==='cheer'?`<path d="M44 71q5-7 10 0M66 71q5-7 10 0" stroke="#5a2338" stroke-width="3" fill="none" stroke-linecap="round"/>`
+  :`<ellipse cx="49" cy="69" rx="4.2" ry="5.2" fill="#5a2338"/><ellipse cx="71" cy="69" rx="4.2" ry="5.2" fill="#5a2338"/><circle cx="50.5" cy="67" r="1.6" fill="#fff"/><circle cx="72.5" cy="67" r="1.6" fill="#fff"/>`;
+ const mouth=mood==='cheer'?`<path d="M54 80q6 8 12 0z" fill="#e85a8a"/>`:mood==='sleepy'?`<ellipse cx="60" cy="82" rx="3" ry="2.2" fill="#e85a8a"/>`:`<path d="M55 79q2.5 3 5 0q2.5 3 5 0" stroke="#5a2338" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+ const extra=mood==='cheer'?`<ellipse cx="22" cy="58" rx="7" ry="12" fill="#fff" stroke="${ol}" stroke-width="3" transform="rotate(-35 22 58)"/><ellipse cx="98" cy="58" rx="7" ry="12" fill="#fff" stroke="${ol}" stroke-width="3" transform="rotate(35 98 58)"/><path d="M14 30l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#ffd166"/><path d="M104 22l2.4 5.6 5.6 2.4-5.6 2.4-2.4 5.6-2.4-5.6-5.6-2.4 5.6-2.4z" fill="#ff9cc2"/>`
+  :mood==='sleepy'?`<text x="12" y="40" font-size="16" font-weight="700" fill="#b58a9a" font-family="sans-serif">z</text><text x="2" y="24" font-size="12" font-weight="700" fill="#b58a9a" font-family="sans-serif">z</text>`:'';
+ return `<svg class="bunny ${mood}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
+ <g class="ears"><ellipse cx="44" cy="30" rx="11" ry="27" fill="#fff" stroke="${ol}" stroke-width="3" transform="rotate(-10 44 30)"/><ellipse cx="44" cy="32" rx="5" ry="18" fill="#ffc2d6" transform="rotate(-10 44 32)"/>
+ <ellipse cx="78" cy="30" rx="11" ry="27" fill="#fff" stroke="${ol}" stroke-width="3" transform="rotate(${mood==='sleepy'?40:12} 78 52)"/><ellipse cx="78" cy="32" rx="5" ry="18" fill="#ffc2d6" transform="rotate(${mood==='sleepy'?40:12} 78 52)"/></g>
+ ${extra}<ellipse cx="60" cy="74" rx="40" ry="35" fill="#fff" stroke="${ol}" stroke-width="3"/>
+ <ellipse cx="40" cy="80" rx="7" ry="4.5" fill="#ffb3cb" opacity=".8"/><ellipse cx="80" cy="80" rx="7" ry="4.5" fill="#ffb3cb" opacity=".8"/>${eyes}${mouth}
+ <g transform="translate(36 44) rotate(-18)"><path d="M0 0L-15-9Q-19 0-15 9z" fill="#ff6fa3"/><path d="M0 0L15-9Q19 0 15 9z" fill="#ff6fa3"/><circle r="5.5" fill="#e85a8a"/><circle cx="-1.5" cy="-1.5" r="1.6" fill="#fff" opacity=".7"/></g></svg>`}
+function berry(size){size=size||56;return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 26C22 22 14 44 22 64 30 84 44 94 50 94S70 84 78 64C86 44 78 22 50 26z" fill="#ff6f91" stroke="#e85a8a" stroke-width="3"/><path d="M50 28l-14-12 9 1-4-10 9 8 0-11 5 11 9-8-4 10 9-1z" fill="#6fcf8a" stroke="#3aa56b" stroke-width="2" stroke-linejoin="round"/><g fill="#ffe08a"><circle cx="34" cy="48" r="2"/><circle cx="66" cy="48" r="2"/><circle cx="30" cy="66" r="2"/><circle cx="70" cy="66" r="2"/><circle cx="50" cy="84" r="2"/></g><ellipse cx="42" cy="60" rx="3.4" ry="4.2" fill="#5a2338"/><ellipse cx="58" cy="60" rx="3.4" ry="4.2" fill="#5a2338"/><circle cx="43.2" cy="58.6" r="1.2" fill="#fff"/><circle cx="59.2" cy="58.6" r="1.2" fill="#fff"/><path d="M46 69q4 4 8 0" stroke="#5a2338" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="35" cy="68" rx="5" ry="3" fill="#ffb3cb"/><ellipse cx="65" cy="68" rx="5" ry="3" fill="#ffb3cb"/></svg>`}
+function drop(size){size=size||56;return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8C38 30 20 46 20 66a30 30 0 0 0 60 0C80 46 62 30 50 8z" fill="#bfe3ff" stroke="#4fb3f6" stroke-width="3"/><ellipse cx="36" cy="54" rx="5" ry="9" fill="#fff" opacity=".7" transform="rotate(20 36 54)"/><ellipse cx="42" cy="68" rx="3.4" ry="4.2" fill="#5a2338"/><ellipse cx="58" cy="68" rx="3.4" ry="4.2" fill="#5a2338"/><circle cx="43.2" cy="66.6" r="1.2" fill="#fff"/><circle cx="59.2" cy="66.6" r="1.2" fill="#fff"/><path d="M46 77q4 4 8 0" stroke="#5a2338" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="34" cy="76" rx="5" ry="3" fill="#ffb3cb"/><ellipse cx="66" cy="76" rx="5" ry="3" fill="#ffb3cb"/></svg>`}
+function cheerPop(){const p=$('pop');p.innerHTML=bunny('cheer',150)+'<b>Yay!</b>';p.classList.remove('on');void p.offsetWidth;p.classList.add('on');clearTimeout(window._pp);window._pp=setTimeout(()=>p.classList.remove('on'),1100)}
 // ---- redesign v2 UI (data logic above is unchanged from the live app) ----
 {const t0=touch;touch=function(){t0();clearTimeout(window._sy);window._sy=setTimeout(()=>push().then(bellaLine).catch(()=>{}),2000)}}
 const ring=(pct,col,inner)=>{const r=42,c=2*Math.PI*r,p=Math.max(0,Math.min(1,pct||0));return `<svg viewBox="0 0 100 100" width="100%" height="100%"><circle cx="50" cy="50" r="${r}" fill="none" stroke="#f6e8ee" stroke-width="10"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${p>=1?'#58cc8a':col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" style="transition:stroke-dasharray .5s"/></svg><div class="in">${inner}</div>`};
@@ -225,8 +252,8 @@ function setDate(k){$('date').value=k;wsel=null;lix=null;render()}
 function skinGo(p){skinPart=p;go('skin')}
 function nextDay(){const ks=Object.keys(db.entries).filter(k=>k<K()).sort().reverse();for(const k of ks){const e=db.entries[k];if(e.workout==='done'&&PLAN[e.day])return 'd'+(+e.day[1]%4+1)}return 'd1'}
 function hero(){const d=E.day;let h;
- if(d==='rest')h=`<div class="emo">😴</div><div class="k">TODAY</div><div class="t">Rest day</div><button class="btn w" onclick="go('workouts')">PICK WORKOUT</button>`;
- else if(PLAN[d]&&E.workout==='done')h=`<div class="emo">🎉</div><div class="k">DAY ${d[1]} · DONE</div><div class="t">${PLAN[d].t}</div><button class="btn w" onclick="wsel='${d}';lix=null;go('workouts')">VIEW</button>`;
+ if(d==='rest')h=`<div class="emo">${bunny('sleepy',110)}</div><div class="k">TODAY</div><div class="t">Rest day</div><button class="btn w" onclick="go('workouts')">PICK WORKOUT</button>`;
+ else if(PLAN[d]&&E.workout==='done')h=`<div class="emo">${bunny('cheer',110)}</div><div class="k">DAY ${d[1]} · DONE</div><div class="t">${PLAN[d].t}</div><button class="btn w" onclick="wsel='${d}';lix=null;go('workouts')">VIEW</button>`;
  else{const id=PLAN[d]?d:nextDay(),p=PLAN[id],dn=p.ex.filter(x=>E.ex[id+'|'+x]?.done).length;
   h=`<button class="rest" onclick="pickDay('rest')" aria-label="rest day">😴</button><div class="emo">${EMO[id]}</div><div class="k">DAY ${id[1]}${dn?' · '+dn+'/'+p.ex.length:''}</div><div class="t">${p.t}</div><button class="btn w" onclick="lix=null;pickDay('${id}',1)">${dn?'CONTINUE':'START'}</button>`}
  $('hero').innerHTML=h}
@@ -241,7 +268,7 @@ function render(){cur();const k=K(),g=ptotal(E),n=n3(E);
  $('core').innerHTML=CORE.map(c=>`<button class="mu ${E.protein[c[0]]?'on':''}" onclick="setP('${c[0]}',${!E.protein[c[0]]})"><span class="ck ${E.protein[c[0]]?'on':''}">✓</span><span class="e">${c[1]}</span>${CSHORT[c[0]]}</button>`).join('');
  $('quick').innerHTML=QUICK.map((q,i)=>`<button class="q" onclick="quick(${i})"><span class="e">${q[0].split(' ')[0]}</span>${QSHORT[i]}<small>+${q[1]}g</small></button>`).join('')+`<button class="q add" onclick="openSheet('log')"><span class="e">✏️</span>Other<small>${E.foods.length+(E.food?1:0)||''}${E.foods.length||E.food?' logged':''}</small></button>`;
  const items=E.foods.map((f,i)=>`<div class="fl">${esc(f.name)}<span class="g">${f.g===''||f.g==null?'?':f.g+'g'}</span><button class="x" onclick="E.foods.splice(${i},1);touch();render()">✕</button></div>`);
- $('flist').innerHTML=items.length?items.join(''):'<div class="small" style="padding:14px 0;text-align:center">Nothing yet 💗</div>';
+ $('flist').innerHTML=items.length?items.join(''):`<div class="empty">${berry(64)}Nothing yet</div>`;
  $('food').value=E.food||'';$('bellaP').textContent=E.bella_protein_g!=null?`💕 Bella: +${E.bella_protein_g}g${E.bella_note?' ('+E.bella_note+')':''}`:'';
  $('skin').innerHTML=SKIN.map(s=>`<button class="face ${E.skin===s[0]?'on':''}" onclick="E.skin='${s[0]}';touch();render()"><span>${s[1]}</span>${s[2]}</button>`).join('');$('skinNotes').value=E.skinNotes||'';
  $('mood').innerHTML=MOOD.map(m=>`<button class="chip ${E.mood===m?'on':''}" onclick="E.mood='${m}';touch();render()">${m}</button>`).join('');$('notes').value=E.notes||'';
@@ -259,15 +286,15 @@ function renderWork(){const d=wsel||(E.day&&E.day!=='rest'?E.day:'d1');wsel=d;co
  $('listT').textContent=`Day ${d[1]} · ${p.t}`;
  $('exList').innerHTML=p.ex.map((x,i)=>`<div class="it" onclick="lix=${i};closeSheet();renderWork()"><span class="ck ${st(x).done?'on':''}" onclick="event.stopPropagation();exSet('${d}',${i},'done',${!st(x).done})">✓</span><span class="nm">${dname(x)}</span><span class="small">${reps(x)}</span></div>`).join('');
  const fin=E.workout==='done'&&E.day===d;
- if(lix>=L){$('lesson').innerHTML=`<div class="lcard"><div class="emo">${fin?'🎉':'🏆'}</div><div class="nm">${fin?'You did it!':'Last step!'}</div><span class="reps">${dn}/${L} moves</span></div>
+ if(lix>=L){$('lesson').innerHTML=`<div class="lcard"><div class="emo">${bunny(fin?'cheer':'happy',120)}</div><div class="nm">${fin?'You did it!':'Last step!'}</div><span class="reps">${dn}/${L} moves</span></div>
   <div class="lnav" style="margin-top:22px"><button class="sm" onclick="lix=${L-1};renderWork()">‹</button><button class="btn ${fin?'g':''}" id="didIt" onclick="didIt()">${fin?'DONE 🎉':'I DID IT! 💪'}</button></div>`;return}
  const x=p.ex[lix],s=st(x),r=reps(x);
  $('lesson').innerHTML=`<div class="lcard">${s.done?'<span class="done">✓ done</span>':''}<button class="info" onclick="exInfo(${lix})">i</button><div class="small" style="font-weight:700;letter-spacing:.08em">${lix+1} / ${L}</div><div class="emo" style="margin-top:10px">${EMO[d]}</div><div class="nm">${dname(x)}</div>${r?`<span class="reps">${r}</span>`:''}${s.w?`<div class="wt">🏋️ ${esc(s.w)}</div>`:''}</div>
  <div class="lnav" style="margin-top:22px"><button class="sm" onclick="lix=Math.max(0,lix-1);renderWork()" ${lix?'':'style="visibility:hidden"'}>‹</button><button class="btn ${s.done?'ghost':''}" onclick="exDone(${lix})">${s.done?'NEXT ›':'DONE ✓'}</button><button class="sm" onclick="lix++;renderWork()" aria-label="skip">›</button></div>`}
 function exInfo(i){const d=wsel,x=PLAN[d].ex[i],s=E.ex[d+'|'+x]||{};info(`<h3>${dname(x)}</h3><p>🌸 ${TIPS[x]||''}</p><p class="small">Hard? Go lighter. Still counts ✨</p><input type="text" placeholder="weight × reps" value="${esc(s.w||'')}" onchange="exSet('${d}',${i},'w',this.value)">`)}
-function exDone(i){const d=wsel,x=PLAN[d].ex[i],was=(E.ex[d+'|'+x]||{}).done;if(!was)exSet(d,i,'done',true);lix=i+1;renderWork();if(!was&&lix>=PLAN[d].ex.length)party()}
+function exDone(i){const d=wsel,x=PLAN[d].ex[i],was=(E.ex[d+'|'+x]||{}).done;if(!was){exSet(d,i,'done',true);cheerPop()}lix=i+1;renderWork();if(!was&&lix>=PLAN[d].ex.length)party()}
 function exSet(d,i,f,v){cur();const k=d+'|'+PLAN[d].ex[i];E.ex[k]={...(E.ex[k]||{}),[f]:v};touch();if(f==='done')render()}
-async function didIt(){cur();E.day=wsel;E.workout='done';touch();party();render();$('wmsg').textContent='Saving... ⏳';await doSave('wmsg')}
+async function didIt(){cur();E.day=wsel;E.workout='done';touch();party();cheerPop();render();$('wmsg').textContent='Saving... ⏳';await doSave('wmsg')}
 function tretBadge(){const t=tretTip();return /IS a tretinoin night/.test(t)?'tonight':/No tretinoin/.test(t)?'skip':''}
 function renderRoutine(){cur();E.routine=E.routine||{};$('segAM').classList.toggle('on',skinPart==='am');$('segPM').classList.toggle('on',skinPart==='pm');
  $('routine').innerHTML=PARTS[skinPart].map(([sec,lbl,steps])=>`<div class="sub">${sec.replace('🌸 ','')}</div><div class="list">`+steps.map(([id])=>{const[e,nm]=SHORT[id]||['•',id],b=id==='fn4'?tretBadge():'';return `<div class="it" onclick="setR('${id}',${!E.routine[id]})"><span class="ck ${E.routine[id]?'on':''}">✓</span><span class="nm">${e} ${nm}</span>${b?`<span class="badge">${b}</span>`:''}<button class="ii" onclick="event.stopPropagation();stepInfo('${id}')">i</button></div>`}).join('')+'</div>').join('')}
@@ -276,19 +303,20 @@ function setR(id,v){cur();E.routine=E.routine||{};E.routine[id]=v;touch();render
 function week(){$('week').innerHTML=weekDays().map((x,i)=>{const k=iso(x),e=db.entries[k];const h=!e?'🤍':e.workout==='done'&&n3(e)===3?'💖':e.workout==='done'?'💪':e.day==='rest'?'😴':good(e)?'💗':'🤍';return `<div class="wd ${k===K()?'t':''}" onclick="setDate('${k}')">${'MTWTFSS'[i]}<b>${h}</b>${x.getDate()}</div>`}).join('')}
 function progress(){const ds=weekDays().map(x=>db.entries[iso(x)]).filter(Boolean);const wo=ds.filter(e=>e.workout==='done').length,p3=ds.filter(e=>n3(e)===3).length,avg=ds.length?Math.round(ds.reduce((s,e)=>s+ptotal(e),0)/ds.length):0,w=ds.reduce((s,e)=>s+(+e.water||0),0);
  $('stats').innerHTML=`<div class="st"><b>${wo}/4</b>💪 gym</div><div class="st"><b>${p3}</b>🍗 3/3 days</div><div class="st"><b>${avg}g</b>avg protein</div><div class="st"><b>${w}</b>🥤 Yetis</div>`;
- $('hist').innerHTML=Object.keys(db.entries).sort().reverse().slice(0,21).map(k=>{const e=db.entries[k];return `<div class="hist" onclick="setDate('${k}');go('home')"><span>${k.slice(5)}</span><span>${e.workout==='done'?'💪 '+(PLAN[e.day]?.t||''):e.day==='rest'?'😴':'—'}</span><span>🍗${ptotal(e)}g</span><span>🥤${+e.water||0}</span><span>${(SKIN.find(s=>s[0]===e.skin)||[])[1]||''}${e.mood||''}</span></div>`}).join('')||'<div class="small" style="padding:14px 0">No days yet 💗</div>'}
+ $('hist').innerHTML=Object.keys(db.entries).sort().reverse().slice(0,21).map(k=>{const e=db.entries[k];return `<div class="hist" onclick="setDate('${k}');go('home')"><span>${k.slice(5)}</span><span>${e.workout==='done'?'💪 '+(PLAN[e.day]?.t||''):e.day==='rest'?'😴':'—'}</span><span>🍗${ptotal(e)}g</span><span>🥤${+e.water||0}</span><span>${(SKIN.find(s=>s[0]===e.skin)||[])[1]||''}${e.mood||''}</span></div>`}).join('')||`<div class="empty">${bunny('sleepy',64)}No days yet</div>`}
 let bline='';function bellaLine(){const b=[...db.messages].reverse().find(m=>m.from==='bella');bline=b?b.text:CHEERS[new Date().getDate()%CHEERS.length]}
 let curT='home';
-function topBtns(){const B={home:`<button class="ib" onclick="info('<h3>🎀 Bella</h3><p>'+esc(bline)+'</p>')" aria-label="Bella says">💬<span class="dot"></span></button><button class="ib" onclick="openSheet('feel')" aria-label="skin and mood">${E.mood||'💖'}</button>`,food:`<button class="ib" onclick="openSheet('log')" aria-label="food log">📋</button>`,skin:`<button class="ib" onclick="info('<h3>💪 After gym</h3><p>Change out of sweaty clothes right away 💗</p><h3>🚫 Avoid</h3><p>• The Ordinary SA on face<br>• Scrubbing or picking<br>• Tretinoin, Panoxyl, or AmLactin on sensitive areas</p>')" aria-label="tips">⚠️</button>`,progress:`<button class="ib" onclick="openSheet('cal')" aria-label="pick date">📅</button>`};$('tbtn').innerHTML=`<span style="display:flex;gap:8px">${B[curT]||''}</span>`}
+function topBtns(){const B={home:`<button class="ib" onclick="openSheet('feel')" aria-label="skin and mood">${E.mood||'💖'}</button>`,food:`<button class="ib" onclick="openSheet('log')" aria-label="food log">📋</button>`,skin:`<button class="ib" onclick="info('<h3>💪 After gym</h3><p>Change out of sweaty clothes right away 💗</p><h3>🚫 Avoid</h3><p>• The Ordinary SA on face<br>• Scrubbing or picking<br>• Tretinoin, Panoxyl, or AmLactin on sensitive areas</p>')" aria-label="tips">⚠️</button>`,progress:`<button class="ib" onclick="openSheet('cal')" aria-label="pick date">📅</button>`};$('tbtn').innerHTML=`<span style="display:flex;gap:8px">${B[curT]||''}</span>`}
 function save(id){cur();E.skinNotes=$('skinNotes').value;E.notes=$('notes').value;E.food=$('food').value;touch();doSave(id)}
 ['skinNotes','notes','food'].forEach(i=>$(i).onchange=()=>{cur();E[i]=$(i).value;touch()});
-function drawChat(){const c=$('chat');c.innerHTML=db.messages.length?'':'<div class="small" style="text-align:center;margin-top:30px">Say hi 👋</div>';db.messages.forEach(m=>{const d=document.createElement('div');d.className='bub '+(m.from==='bella'?'be':'me');d.textContent=m.text;const t=document.createElement('span');t.className='ts';t.textContent=new Date(m.ts).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});d.appendChild(t);c.appendChild(d)});c.scrollTop=c.scrollHeight}
+function drawChat(){const c=$('chat');c.innerHTML=db.messages.length?'':`<div class="empty" style="margin-top:40px">${bunny('happy',90)}Say hi!</div>`;db.messages.forEach(m=>{const d=document.createElement('div');d.className='bub '+(m.from==='bella'?'be':'me');d.textContent=m.text;const t=document.createElement('span');t.className='ts';t.textContent=new Date(m.ts).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});d.appendChild(t);if(m.from==='bella'){const w=document.createElement('div');w.className='brow';w.innerHTML=bunny('happy',30);w.appendChild(d);c.appendChild(w)}else c.appendChild(d)});c.scrollTop=c.scrollHeight}
 $('csend').onclick=async()=>{const t=$('cin').value.trim();if(!t)return;db.messages.push({id:Date.now()+'-i',from:'ishu',text:t,ts:new Date().toISOString()});$('cin').value='';drawChat();try{await push()}catch(e){}drawChat()};
 $('cin').onkeydown=e=>{if(e.key==='Enter')$('csend').click()};
-const TITLES={home:'Hi Ishu 🎀',workouts:'Gym',food:'Food',skin:'Skin',bella:'Bella 💕',progress:'<button onclick="go(\'home\')" style="color:var(--mute);font-size:26px">‹</button>My week'};
+function bellaSays(){info(`<div style="display:flex;justify-content:center">${bunny('happy',90)}</div><p style="text-align:center;font-size:18px">${esc(bline)}</p>`)}
+const TITLES={home:`<button class="av" onclick="bellaSays()" aria-label="Bella says">${bunny('happy',44)}<span class="dot"></span></button>Hi Ishu`,workouts:'Gym',food:'Food',skin:'Skin',bella:'Bella 💕',progress:'<button onclick="go(\'home\')" style="color:var(--mute);font-size:26px">‹</button>My week'};
 async function go(t){curT=t;closeSheet();document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.t===t));document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+t));$('ttl').innerHTML=TITLES[t];topBtns();scrollTo(0,0);if(t==='skin')renderRoutine();if(t==='workouts')renderWork();if(t==='bella'){drawChat();await pull();drawChat()}}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.t));
 $('date').value=today();$('date').onchange=()=>setDate($('date').value||today());
 try{db=merge(db,JSON.parse(localStorage.glow||'{}'))}catch(e){}render();pull().then(render);
-{const h=location.hash.slice(1);if(TITLES[h])go(h)}
+{const h=location.hash.slice(1);go(TITLES[h]?h:'home')}
 </script></body></html>
